@@ -8,8 +8,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
 
     :root {
-      --glass-bg: rgba(255, 255, 255, 0.08);
-      --glass-border: rgba(255, 255, 255, 0.15);
+      --glass-bg: rgba(255, 255, 255, 0.08); --glass-border: rgba(255, 255, 255, 0.15);
       --text-main: #ffffff; --text-muted: #a7f3d0; --accent: #10b981; 
       --hp-color: #ef4444; --xp-color: #3b82f6;
     }
@@ -25,15 +24,14 @@
     .glass-panel {
       background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); width: 95%; max-width: 1200px;
-      min-height: 80vh; position: relative;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); width: 95%; max-width: 1200px; min-height: 80vh; position: relative;
     }
 
     h1 { font-size: 2.5rem; font-weight: 800; text-align: center; margin-bottom: 10px; }
     h1 span { color: var(--accent); }
     .subtitle { color: var(--text-muted); text-align: center; margin-bottom: 30px; }
 
-    .screen { display: none; animation: fadeIn 0.5s ease-in-out; }
+    .screen { display: none; animation: fadeIn 0.4s ease-in-out; }
     .screen.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -51,7 +49,7 @@
     .card { background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
     .card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(16,185,129,0.2); }
     
-    /* Ethereal Orbs (Dynamic Evolution Styles) */
+    /* Dynamic Orbs */
     .orb { border-radius: 50%; margin: 0 auto 15px auto; transition: all 1s ease; animation: float 4s ease-in-out infinite; }
     .orb.stage-1 { width: 80px; height: 80px; box-shadow: 0 0 10px rgba(255,255,255,0.1); }
     .orb.stage-2 { width: 110px; height: 110px; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
@@ -62,18 +60,18 @@
     @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
     @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
+    /* Layouts */
+    .sanctuary-layout { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 30px; align-items: center; }
+    .panel { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid var(--glass-border); }
+    
     /* Progress Bars */
     .bar-container { width: 100%; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 10px 0 20px 0; height: 12px; overflow: hidden; }
     .bar-fill { height: 100%; border-radius: 10px; transition: width 0.4s ease; }
     .bg-hp { background: var(--hp-color); } .bg-xp { background: var(--xp-color); }
 
-    /* Layouts */
-    .sanctuary-layout { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 30px; align-items: center; }
-    .panel { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid var(--glass-border); }
-    
     /* Diet Buttons */
     .diet-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px;}
-    .btn-diet { font-size: 0.8rem; padding: 10px; }
+    .btn-diet { font-size: 0.8rem; padding: 10px; border-radius: 8px;}
     .bg-meat { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: white;}
     .bg-flora { background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: white;}
     .bg-mineral { background: rgba(168, 162, 158, 0.2); border: 1px solid #a8a29e; color: white;}
@@ -83,14 +81,27 @@
     .fighter { text-align: center; width: 40%; }
     .battle-log { margin-top: 20px; height: 120px; overflow-y: auto; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; font-family: monospace; color: #a7f3d0; }
     
-    /* Loading overlay */
-    #loader { display: none; position: absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index: 100; border-radius: 24px; color: white; justify-content: center; align-items: center; font-size: 1.5rem; }
+    /* Leaderboard */
+    .leaderboard-row { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid var(--glass-border); }
+    .leaderboard-row:first-child { font-weight: bold; color: var(--accent); }
+
+    /* Error Proof Loader */
+    #loader { display: none; position: absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index: 100; border-radius: 24px; color: white; flex-direction: column; justify-content: center; align-items: center; font-size: 1.5rem; }
+    #loader-text { margin-bottom: 15px; }
+    #loader-error { color: #ef4444; font-size: 1rem; max-width: 80%; text-align: center; display: none; }
+    .loader-spinner { border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid var(--accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
   <div class="glass-panel" id="app">
-    <div id="loader">Syncing with EvoCore Network...</div>
+    <div id="loader">
+      <div class="loader-spinner" id="spinner-icon"></div>
+      <div id="loader-text">Syncing with EvoCore Network...</div>
+      <div id="loader-error"></div>
+      <button class="btn-action hidden" id="btn-force-close" style="width: 200px; margin-top: 20px; display:none;" onclick="game.showLoader(false)">Force Close</button>
+    </div>
 
     <div id="screen-auth" class="screen active">
       <div style="max-width: 400px; margin: 0 auto; padding-top: 10vh;">
@@ -125,20 +136,25 @@
     </div>
 
     <div id="screen-sanctuary" class="screen">
-      <h1>The <span>Sanctuary</span></h1>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <button class="btn-action" style="width: auto; margin:0;" onclick="game.loadLeaderboard()">🏆 Leaderboard</button>
+        <button class="btn-action" style="width: auto; margin:0; border:none;" onclick="game.logout()">Logout</button>
+      </div>
+
+      <h1 style="margin-top: -20px;">The <span>Sanctuary</span></h1>
       <p class="subtitle">Ecosystem stable. Mutate and Evolve.</p>
       
       <div class="sanctuary-layout">
         <div class="panel">
           <h3>Vital Stats</h3>
-          <p style="margin-top:10px;">Form: <span id="stat-form" style="color:var(--accent); font-weight:bold;">Spore</span></p>
-          <p>Stage: <span id="stat-stage">1</span> / 5</p>
+          <p style="margin-top:10px;">Classification: <span id="stat-rank" style="color:#c084fc; font-weight:bold;">Cell</span></p>
+          <p>Form: <span id="stat-form" style="color:var(--accent);">Spore</span> (Stage <span id="stat-stage">1</span>)</p>
           
           <div style="margin-top: 15px;">HP (<span id="text-hp">100</span>/<span id="text-maxhp">100</span>)</div>
-          <div class="bar-container"><div class="bar-fill bg-hp" id="bar-hp" style="width: 100%;"></div></div>
+          <div class="bar-container"><div class="bar-fill bg-hp" id="bar-hp"></div></div>
           
           <div>XP (<span id="text-xp">0</span>/100)</div>
-          <div class="bar-container"><div class="bar-fill bg-xp" id="bar-xp" style="width: 0%;"></div></div>
+          <div class="bar-container"><div class="bar-fill bg-xp" id="bar-xp"></div></div>
           
           <div style="display: flex; justify-content: space-between; margin-top: 10px;">
             <p>ATK: <span id="stat-atk" style="color:#f87171;">10</span></p>
@@ -154,7 +170,7 @@
 
         <div class="panel">
           <h3>Dietary Mutation</h3>
-          <p style="font-size: 0.8rem; color: #9ca3af; margin-bottom: 15px;">Reserves: <span id="food-count">0</span></p>
+          <p style="font-size: 0.8rem; color: #9ca3af; margin-bottom: 15px;">Nutrient Reserves: <span id="food-count" style="color:white; font-weight:bold;">0</span></p>
           
           <div class="diet-grid">
             <button class="btn-diet bg-meat" onclick="game.feed('meat')">Meat<br>(+ATK)</button>
@@ -162,9 +178,7 @@
             <button class="btn-diet bg-mineral" onclick="game.feed('mineral')">Rock<br>(+DEF)</button>
           </div>
 
-          <button class="btn-danger" onclick="game.goToColosseum()">Enter Colosseum</button>
-          <button class="btn-action" style="margin-top: 20px;" onclick="game.saveToCloud()">Save to Cloud</button>
-          <button class="btn-action" style="background: transparent; border: none; color: #9ca3af;" onclick="game.logout()">System Logout</button>
+          <button class="btn-danger" style="padding: 15px;" onclick="game.goToColosseum()">ENTER COLOSSEUM</button>
         </div>
       </div>
     </div>
@@ -176,13 +190,13 @@
       <div class="battle-arena" id="arena-bg">
         <div class="fighter">
           <h3 id="battle-player-name">You</h3>
-          <div class="bar-container"><div class="bar-fill bg-hp" id="battle-player-hp" style="width: 100%;"></div></div>
+          <div class="bar-container"><div class="bar-fill bg-hp" id="battle-player-hp"></div></div>
           <div class="orb stage-2" id="battle-player-orb"></div>
         </div>
         <div style="font-size: 2rem; font-weight: 800; color: #ef4444;">VS</div>
         <div class="fighter">
           <h3 id="battle-enemy-name">Feral Beast</h3>
-          <div class="bar-container"><div class="bar-fill bg-hp" id="battle-enemy-hp" style="width: 100%;"></div></div>
+          <div class="bar-container"><div class="bar-fill bg-hp" id="battle-enemy-hp"></div></div>
           <div class="orb stage-2" id="battle-enemy-orb" style="background: #334155;"></div>
         </div>
       </div>
@@ -194,12 +208,25 @@
       </div>
       <div class="battle-log" id="battle-log"></div>
     </div>
+
+    <div id="screen-leaderboard" class="screen">
+      <h1>Global <span>Rankings</span></h1>
+      <p class="subtitle">The pinnacle of evolution.</p>
+      <div class="panel" style="max-width: 800px; margin: 0 auto;">
+        <div class="leaderboard-row">
+          <span>Researcher</span><span>Organism</span><span>Stage</span><span>Rank</span>
+        </div>
+        <div id="leaderboard-data">
+          </div>
+        <button class="btn-primary" style="margin-top: 30px;" onclick="game.switchScreen('sanctuary')">Return to Sanctuary</button>
+      </div>
+    </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, getDoc, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
     // Your Exact Config
     const firebaseConfig = {
@@ -210,7 +237,6 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Game Database
     const regions = {
       'Abyssal Trench': { bg: 'linear-gradient(135deg, #0f172a, #0c4a6e)', organisms: [
         { id: "abyssal", name: "Abyssal Larva", trait: "High-Pressure", color1: "#38bdf8", color2: "#0369a1", atk: 15, def: 8 },
@@ -227,11 +253,33 @@
     };
 
     const forms = ["Spore", "Juvenile", "Apex", "Mutated", "Ascendant"];
+    const ranks = ["Cell", "Microbe", "Parasite", "Scavenger", "Forager", "Hunter", "Predator", "Apex", "Mutant", "Alpha", "Chimera", "Behemoth", "Titan", "Leviathan", "Genesis"];
 
     window.game = {
       state: { user: null, region: null, activeOrganism: null, food: 15, battle: {} },
 
-      showLoader(show) { document.getElementById('loader').style.display = show ? 'flex' : 'none'; },
+      showLoader(show, errorMsg = null) {
+        const loader = document.getElementById('loader');
+        const errBox = document.getElementById('loader-error');
+        const forceBtn = document.getElementById('btn-force-close');
+        
+        if (show) {
+          loader.style.display = 'flex';
+          errBox.style.display = 'none';
+          forceBtn.style.display = 'none';
+        } else {
+          loader.style.display = 'none';
+        }
+
+        if (errorMsg) {
+          document.getElementById('spinner-icon').style.display = 'none';
+          errBox.innerText = `DATABASE ERROR: ${errorMsg}. Check Firestore Security Rules!`;
+          errBox.style.display = 'block';
+          forceBtn.style.display = 'block';
+        } else {
+          document.getElementById('spinner-icon').style.display = 'block';
+        }
+      },
       
       switchScreen(screenId) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -242,6 +290,12 @@
         const logBox = document.getElementById('battle-log');
         logBox.innerHTML += `> ${msg}<br>`;
         logBox.scrollTop = logBox.scrollHeight;
+      },
+
+      getRank(stage, level) {
+        // Calculates which of the 15 ranks you are in based on Stage (1-5) and internal level
+        let rankIndex = ((stage - 1) * 3) + Math.floor(level / 3);
+        return ranks[Math.min(rankIndex, 14)];
       },
 
       selectRegion(regionName) {
@@ -256,7 +310,7 @@
           card.innerHTML = `<div class="orb stage-1" style="background: linear-gradient(135deg, ${org.color1}, ${org.color2});"></div>
             <h3>${org.name}</h3><p style="color:var(--accent); font-size:0.8rem;">${org.trait}</p>`;
           card.onclick = () => {
-            this.state.activeOrganism = { ...org, stage: 1, xp: 0, hp: 100, maxHp: 100 };
+            this.state.activeOrganism = { ...org, stage: 1, level: 1, xp: 0, hp: 100, maxHp: 100 };
             this.saveToCloud().then(() => { this.updateSanctuary(); this.switchScreen('sanctuary'); });
           };
           grid.appendChild(card);
@@ -272,6 +326,7 @@
         
         document.getElementById('stat-form').innerText = forms[org.stage - 1];
         document.getElementById('stat-stage').innerText = org.stage;
+        document.getElementById('stat-rank').innerText = this.getRank(org.stage, org.level);
         document.getElementById('sanctuary-name').innerText = org.name;
         document.getElementById('sanctuary-trait').innerText = `Passive: ${org.trait}`;
         
@@ -289,51 +344,46 @@
 
       feed(dietType) {
         if (this.state.food <= 0) return alert("Out of reserves! Fight in the Colosseum.");
-        if (this.state.activeOrganism.stage >= 5 && this.state.activeOrganism.xp >= 100) return alert("Max Evolution Reached!");
+        if (this.state.activeOrganism.stage >= 5 && this.state.activeOrganism.xp >= 100) return alert("Genesis Reached. Max Evolution.");
 
         this.state.food--;
         this.state.activeOrganism.xp += 25;
+        this.state.activeOrganism.level++;
         
-        // Diet Stat Branching
-        if (dietType === 'meat') this.state.activeOrganism.atk += 2;
-        if (dietType === 'flora') this.state.activeOrganism.maxHp += 10;
-        if (dietType === 'mineral') this.state.activeOrganism.def += 2;
+        if (dietType === 'meat') this.state.activeOrganism.atk += 3;
+        if (dietType === 'flora') this.state.activeOrganism.maxHp += 15;
+        if (dietType === 'mineral') this.state.activeOrganism.def += 3;
         
-        // Heal
         this.state.activeOrganism.hp = Math.min(this.state.activeOrganism.maxHp, this.state.activeOrganism.hp + 20);
 
-        // Evolution Check
         if (this.state.activeOrganism.xp >= 100 && this.state.activeOrganism.stage < 5) {
           this.state.activeOrganism.stage++;
           this.state.activeOrganism.xp = 0;
-          this.state.activeOrganism.atk += 5;
-          this.state.activeOrganism.def += 5;
+          this.state.activeOrganism.atk += 10;
+          this.state.activeOrganism.def += 10;
           this.state.activeOrganism.maxHp += 50;
           this.state.activeOrganism.hp = this.state.activeOrganism.maxHp;
           alert(`EVOLUTION! Your organism has reached the ${forms[this.state.activeOrganism.stage - 1]} form!`);
         }
         this.updateSanctuary();
-        this.saveToCloud(); // Auto-save after feeding
+        this.saveToCloud();
       },
 
       goToColosseum() {
         if(this.state.activeOrganism.hp <= 0) return alert("Organism is unconscious. Feed Flora to heal.");
         
         const org = this.state.activeOrganism;
-        const enemyMax = 50 + (org.stage * 30);
-        this.state.battle = { enemyHp: enemyMax, enemyMax: enemyMax, isDefending: false, turn: 1 };
+        const enemyMax = 50 + (org.stage * 40);
+        this.state.battle = { enemyHp: enemyMax, enemyMax: enemyMax, isDefending: false };
         
-        // Setup Arena Biome based on region
         document.getElementById('colosseum-biome').innerText = `Biome: ${this.state.region}`;
         document.getElementById('arena-bg').style.background = regions[this.state.region].bg;
         
-        // Setup Player
         document.getElementById('battle-player-name').innerText = org.name;
         document.getElementById('battle-player-orb').className = `orb stage-${org.stage}`;
         document.getElementById('battle-player-orb').style.background = `linear-gradient(135deg, ${org.color1}, ${org.color2})`;
         document.getElementById('battle-player-hp').style.width = `${(org.hp / org.maxHp) * 100}%`;
         
-        // Setup Enemy (Scales with player stage)
         document.getElementById('battle-enemy-name').innerText = `Stage ${org.stage} Predator`;
         document.getElementById('battle-enemy-hp').style.width = `100%`;
         document.getElementById('battle-log').innerHTML = "> Match Started!<br>";
@@ -349,7 +399,7 @@
         
         if (this.state.battle.enemyHp <= 0) {
           document.getElementById('battle-enemy-hp').style.width = `0%`;
-          const reward = 2 + org.stage;
+          const reward = 3 + (org.stage * 2);
           this.log(`<b>Victory! Gained ${reward} Reserves.</b>`);
           this.state.food += reward;
           setTimeout(() => { this.updateSanctuary(); this.saveToCloud(); this.switchScreen('sanctuary'); }, 2000);
@@ -368,7 +418,7 @@
 
       enemyTurn() {
         setTimeout(() => {
-          let enemyAtk = 10 + (this.state.activeOrganism.stage * 8);
+          let enemyAtk = 15 + (this.state.activeOrganism.stage * 12);
           let enemyDmg = Math.max(1, enemyAtk - this.state.activeOrganism.def);
           
           if (this.state.battle.isDefending) { enemyDmg = Math.floor(enemyDmg / 3); this.state.battle.isDefending = false; }
@@ -389,20 +439,20 @@
 
       flee() { this.log("Fleeing..."); setTimeout(() => this.switchScreen('sanctuary'), 1000); },
 
-      // --- FIREBASE CLOUD SAVING ---
+      // --- ROBUST CLOUD SAVING & LEADERBOARD ---
       async saveToCloud() {
         if(!this.state.user) return;
         try {
           this.showLoader(true);
           await setDoc(doc(db, "players", this.state.user.uid), {
+            email: this.state.user.email,
             region: this.state.region,
             food: this.state.food,
             organism: this.state.activeOrganism,
             lastSaved: new Date().toISOString()
           });
-          console.log("Game Saved to Firestore.");
-        } catch(e) { console.error("Save Error", e); }
-        finally { this.showLoader(false); }
+        } catch(e) { this.showLoader(true, e.message); }
+        finally { if(document.getElementById('loader-error').style.display !== 'block') this.showLoader(false); }
       },
 
       async loadFromCloud() {
@@ -414,13 +464,47 @@
             this.state.region = data.region;
             this.state.food = data.food;
             this.state.activeOrganism = data.organism;
+            
+            // Safety check for older saves lacking level property
+            if(!this.state.activeOrganism.level) this.state.activeOrganism.level = 1;
+
             this.updateSanctuary();
             this.switchScreen('sanctuary');
           } else {
-            this.switchScreen('region'); // New player
+            this.switchScreen('region');
           }
-        } catch(e) { console.error("Load Error", e); }
-        finally { this.showLoader(false); }
+          this.showLoader(false);
+        } catch(e) { this.showLoader(true, e.message); }
+      },
+
+      async loadLeaderboard() {
+        try {
+          this.showLoader(true, null);
+          const q = query(collection(db, "players"), orderBy("organism.stage", "desc"), limit(10));
+          const querySnapshot = await getDocs(q);
+          
+          const lb = document.getElementById('leaderboard-data');
+          lb.innerHTML = '';
+          
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const emailPrefix = data.email ? data.email.split('@')[0] : "Unknown";
+            const stage = data.organism.stage;
+            const rank = this.getRank(stage, data.organism.level);
+            
+            lb.innerHTML += `
+              <div class="leaderboard-row">
+                <span>${emailPrefix}</span>
+                <span style="color:var(--accent);">${data.organism.name}</span>
+                <span>Stage ${stage}</span>
+                <span>${rank}</span>
+              </div>
+            `;
+          });
+          
+          this.showLoader(false);
+          this.switchScreen('leaderboard');
+        } catch (e) { this.showLoader(true, e.message); }
       },
 
       logout() { signOut(auth); }
@@ -431,16 +515,20 @@
       const email = document.getElementById('email').value;
       const pass = document.getElementById('password').value;
       if(!email || !pass) return alert("Enter credentials.");
-      try { await signInWithEmailAndPassword(auth, email, pass); } catch (e) { alert(e.message); }
+      try { 
+        this.showLoader(true);
+        await signInWithEmailAndPassword(auth, email, pass); 
+      } catch (e) { alert(e.message); game.showLoader(false); }
     });
 
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         window.game.state.user = user;
-        window.game.loadFromCloud(); // Pull data from Firestore
+        await window.game.loadFromCloud();
       } else {
         window.game.state.user = null;
         window.game.switchScreen('auth');
+        window.game.showLoader(false);
       }
     });
   </script>
