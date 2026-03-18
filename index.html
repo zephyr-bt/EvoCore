@@ -89,8 +89,15 @@
     .leaderboard-row { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid var(--glass-border); }
     .leaderboard-row:first-child { font-weight: bold; color: var(--accent); }
 
-    /* Minimal Status Message (Replaces full screen loader) */
+    /* Minimal Status Message */
     #status-msg { text-align: center; color: var(--accent); font-weight: bold; height: 20px; margin-bottom: 15px; }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .sanctuary-layout { grid-template-columns: 1fr; gap: 15px; }
+      .battle-arena { flex-direction: column; gap: 20px; padding: 20px; }
+      .fighter { width: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -100,7 +107,7 @@
     <div id="screen-auth" class="screen active">
       <div style="max-width: 400px; margin: 0 auto; padding-top: 10vh;">
         <h1>Evo<span>Core</span></h1>
-        <p class="subtitle">Enter your Researcher ID to connect.</p>
+        <p class="subtitle">Enter your Researcher ID to connect to the Local Vault.</p>
         
         <div id="status-msg"></div>
 
@@ -136,7 +143,7 @@
 
     <div id="screen-sanctuary" class="screen">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <button class="btn-action" style="width: auto; margin:0;" onclick="game.loadLeaderboard()">🏆 Leaderboard</button>
+        <button class="btn-action" style="width: auto; margin:0;" onclick="game.loadLeaderboard()">🏆 Local Ranks</button>
         <button class="btn-action" style="width: auto; margin:0; border:none;" onclick="game.logout()">Logout</button>
       </div>
 
@@ -209,8 +216,8 @@
     </div>
 
     <div id="screen-leaderboard" class="screen">
-      <h1>Global <span>Rankings</span></h1>
-      <p class="subtitle">The pinnacle of evolution.</p>
+      <h1>Local <span>Rankings</span></h1>
+      <p class="subtitle">Top lineages recorded in this vault.</p>
       <div class="panel" style="max-width: 800px; margin: 0 auto;">
         <div class="leaderboard-row">
           <span>Researcher</span><span>Organism</span><span>Stage</span><span>Rank</span>
@@ -224,15 +231,20 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-    import { getFirestore, doc, setDoc, getDoc, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-analytics.js";
 
-    // Your Exact Config (NO AUTH NEEDED ANYMORE)
+    // Initialize Firebase ONLY for Analytics (Metrics). No Database involved!
     const firebaseConfig = {
-      apiKey: "AIzaSyBahVyXnanI-2aXNj9ajTxqP-MJZXTPG38", authDomain: "nexusbio.firebaseapp.com", projectId: "nexusbio",
-      storageBucket: "nexusbio.firebasestorage.app", messagingSenderId: "742997204418", appId: "1:742997204418:web:a9d323bc87f164018c8a5b"
+      apiKey: "AIzaSyBahVyXnanI-2aXNj9ajTxqP-MJZXTPG38",
+      authDomain: "nexusbio.firebaseapp.com",
+      projectId: "nexusbio",
+      storageBucket: "nexusbio.firebasestorage.app",
+      messagingSenderId: "742997204418",
+      appId: "1:742997204418:web:a9d323bc87f164018c8a5b",
+      measurementId: "G-85WZJ6JV8T"
     };
     const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    const analytics = getAnalytics(app);
 
     const regions = {
       'Abyssal Trench': { bg: 'linear-gradient(135deg, #0f172a, #0c4a6e)', organisms: [
@@ -278,60 +290,103 @@
         return ranks[Math.min(rankIndex, 14)];
       },
 
-      // --- CUSTOM DB AUTHENTICATION ---
-      async register() {
+      // --- NEW LOCALSTORAGE SAVE SYSTEM (Zero Database Required) ---
+      register() {
         const user = document.getElementById('username').value.toLowerCase().trim();
         const pass = document.getElementById('password').value.trim();
         if(!user || !pass) return this.setStatus("Enter an ID and Password.", true);
         
-        this.setStatus("Scanning Database...");
-        try {
-          const docRef = doc(db, "players", user);
-          const docSnap = await getDoc(docRef);
-          
-          if(docSnap.exists()) return this.setStatus("ID already exists! Please Login.", true);
-          
-          // Create the account baseline
-          await setDoc(docRef, { username: user, password: pass });
-          this.state.userId = user;
-          this.switchScreen('region');
-        } catch(e) {
-          this.setStatus("Database Connection Error. Check Rules.", true);
-          console.error(e);
-        }
+        // Check if user exists in local browser memory
+        const exists = localStorage.getItem('evocore_' + user);
+        if(exists) return this.setStatus("ID already exists! Please Login.", true);
+        
+        // Create the account locally
+        const newAccount = { username: user, password: pass };
+        localStorage.setItem('evocore_' + user, JSON.stringify(newAccount));
+        
+        this.state.userId = user;
+        this.switchScreen('region');
       },
 
-      async login() {
+      login() {
         const user = document.getElementById('username').value.toLowerCase().trim();
         const pass = document.getElementById('password').value.trim();
         if(!user || !pass) return this.setStatus("Enter an ID and Password.", true);
 
-        this.setStatus("Connecting to Server...");
-        try {
-          const docRef = doc(db, "players", user);
-          const docSnap = await getDoc(docRef);
-          
-          if(!docSnap.exists() || docSnap.data().password !== pass) {
-            return this.setStatus("Invalid ID or Password.", true);
-          }
-          
-          this.state.userId = user;
-          const data = docSnap.data();
-          
-          if(data.organism) {
-            this.state.region = data.region;
-            this.state.food = data.food;
-            this.state.activeOrganism = data.organism;
-            if(!this.state.activeOrganism.level) this.state.activeOrganism.level = 1;
-            this.updateSanctuary();
-            this.switchScreen('sanctuary');
-          } else {
-            this.switchScreen('region'); // New account that didn't pick a starter yet
-          }
-        } catch(e) {
-          this.setStatus("Database Connection Error. Check Rules.", true);
-          console.error(e);
+        // Fetch user from local browser memory
+        const accountData = localStorage.getItem('evocore_' + user);
+        
+        if(!accountData) return this.setStatus("ID not found. Create an account.", true);
+        
+        const data = JSON.parse(accountData);
+        if(data.password !== pass) return this.setStatus("Invalid Password.", true);
+        
+        this.state.userId = user;
+        
+        if(data.organism) {
+          this.state.region = data.region;
+          this.state.food = data.food;
+          this.state.activeOrganism = data.organism;
+          if(!this.state.activeOrganism.level) this.state.activeOrganism.level = 1;
+          this.updateSanctuary();
+          this.switchScreen('sanctuary');
+        } else {
+          this.switchScreen('region');
         }
+      },
+
+      saveData() {
+        if(!this.state.userId) return;
+        
+        // Get existing password to merge with new game data
+        const accountData = JSON.parse(localStorage.getItem('evocore_' + this.state.userId));
+        
+        const updatedData = {
+          ...accountData,
+          region: this.state.region,
+          food: this.state.food,
+          organism: this.state.activeOrganism,
+          lastSaved: new Date().toISOString()
+        };
+        
+        // Save straight to the browser!
+        localStorage.setItem('evocore_' + this.state.userId, JSON.stringify(updatedData));
+      },
+
+      loadLeaderboard() {
+        this.setStatus("Loading Ranks...");
+        const lb = document.getElementById('leaderboard-data');
+        lb.innerHTML = '';
+        
+        let allPlayers = [];
+        
+        // Loop through everything saved in the browser memory
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if(key.startsWith('evocore_')) {
+            const data = JSON.parse(localStorage.getItem(key));
+            if(data.organism) allPlayers.push(data);
+          }
+        }
+
+        // Sort by highest stage
+        allPlayers.sort((a, b) => b.organism.stage - a.organism.stage);
+        
+        allPlayers.forEach(data => {
+          const stage = data.organism.stage;
+          const rank = this.getRank(stage, data.organism.level || 1);
+          
+          lb.innerHTML += `
+            <div class="leaderboard-row">
+              <span>${data.username}</span>
+              <span style="color:var(--accent);">${data.organism.name}</span>
+              <span>Stage ${stage}</span>
+              <span>${rank}</span>
+            </div>
+          `;
+        });
+        
+        this.switchScreen('leaderboard');
       },
 
       logout() {
@@ -340,7 +395,7 @@
         document.getElementById('password').value = "";
         this.switchScreen('auth');
       },
-      // --------------------------------
+      // ---------------------------------------------------------------
 
       selectRegion(regionName) {
         this.state.region = regionName;
@@ -355,7 +410,9 @@
             <h3>${org.name}</h3><p style="color:var(--accent); font-size:0.8rem;">${org.trait}</p>`;
           card.onclick = () => {
             this.state.activeOrganism = { ...org, stage: 1, level: 1, xp: 0, hp: 100, maxHp: 100 };
-            this.saveToCloud().then(() => { this.updateSanctuary(); this.switchScreen('sanctuary'); });
+            this.saveData();
+            this.updateSanctuary();
+            this.switchScreen('sanctuary');
           };
           grid.appendChild(card);
         });
@@ -410,7 +467,7 @@
           alert(`EVOLUTION! Your organism has reached the ${forms[this.state.activeOrganism.stage - 1]} form!`);
         }
         this.updateSanctuary();
-        this.saveToCloud();
+        this.saveData(); // Save locally!
       },
 
       goToColosseum() {
@@ -446,7 +503,7 @@
           const reward = 3 + (org.stage * 2);
           this.log(`<b>Victory! Gained ${reward} Reserves.</b>`);
           this.state.food += reward;
-          setTimeout(() => { this.updateSanctuary(); this.saveToCloud(); this.switchScreen('sanctuary'); }, 2000);
+          setTimeout(() => { this.updateSanctuary(); this.saveData(); this.switchScreen('sanctuary'); }, 2000);
           return;
         }
         
@@ -474,59 +531,14 @@
             this.state.activeOrganism.hp = 0;
             document.getElementById('battle-player-hp').style.width = `0%`;
             this.log(`<span style="color:red">You were defeated...</span>`);
-            setTimeout(() => { this.updateSanctuary(); this.saveToCloud(); this.switchScreen('sanctuary'); }, 2000);
+            setTimeout(() => { this.updateSanctuary(); this.saveData(); this.switchScreen('sanctuary'); }, 2000);
           } else {
             document.getElementById('battle-player-hp').style.width = `${(this.state.activeOrganism.hp / this.state.activeOrganism.maxHp) * 100}%`;
           }
         }, 800);
       },
 
-      flee() { this.log("Fleeing..."); setTimeout(() => this.switchScreen('sanctuary'), 1000); },
-
-      async saveToCloud() {
-        if(!this.state.userId) return;
-        try {
-          // Keep existing document data (like password) and just update the game stats
-          const docRef = doc(db, "players", this.state.userId);
-          await setDoc(docRef, {
-            region: this.state.region,
-            food: this.state.food,
-            organism: this.state.activeOrganism,
-            lastSaved: new Date().toISOString()
-          }, { merge: true }); // Merge ensures we don't overwrite the custom password!
-        } catch(e) { console.error("Save failed:", e); }
-      },
-
-      async loadLeaderboard() {
-        try {
-          this.setStatus("Loading Ranks...");
-          const q = query(collection(db, "players"), orderBy("organism.stage", "desc"), limit(10));
-          const querySnapshot = await getDocs(q);
-          
-          const lb = document.getElementById('leaderboard-data');
-          lb.innerHTML = '';
-          
-          querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            if(!data.organism) return; // Skip players who haven't picked an organism
-            
-            const username = data.username || doc.id;
-            const stage = data.organism.stage;
-            const rank = this.getRank(stage, data.organism.level);
-            
-            lb.innerHTML += `
-              <div class="leaderboard-row">
-                <span>${username}</span>
-                <span style="color:var(--accent);">${data.organism.name}</span>
-                <span>Stage ${stage}</span>
-                <span>${rank}</span>
-              </div>
-            `;
-          });
-          
-          this.switchScreen('leaderboard');
-        } catch (e) { console.error("Leaderboard failed:", e); }
-      }
+      flee() { this.log("Fleeing..."); setTimeout(() => this.switchScreen('sanctuary'), 1000); }
     };
   </script>
 </body>
