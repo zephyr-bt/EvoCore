@@ -10,97 +10,88 @@
     :root {
       --glass-bg: rgba(255, 255, 255, 0.08);
       --glass-border: rgba(255, 255, 255, 0.15);
-      --text-main: #ffffff;
-      --text-muted: #a7f3d0;
-      --accent: #10b981; 
-      --hp-color: #ef4444;
-      --xp-color: #3b82f6;
+      --text-main: #ffffff; --text-muted: #a7f3d0; --accent: #10b981; 
+      --hp-color: #ef4444; --xp-color: #3b82f6;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
 
     body {
       background: linear-gradient(135deg, #020617 0%, #064e3b 50%, #022c22 100%);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow-x: hidden;
+      color: var(--text-main); min-height: 100vh; display: flex;
+      justify-content: center; align-items: center; overflow-x: hidden;
     }
 
     .glass-panel {
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--glass-border);
-      border-radius: 24px;
-      padding: 40px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-      width: 95%;
-      max-width: 1200px;
-      min-height: 80vh;
-      position: relative;
+      background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); width: 95%; max-width: 1200px;
+      min-height: 80vh; position: relative;
     }
 
     h1 { font-size: 2.5rem; font-weight: 800; text-align: center; margin-bottom: 10px; }
     h1 span { color: var(--accent); }
     .subtitle { color: var(--text-muted); text-align: center; margin-bottom: 30px; }
 
-    /* Screen Management */
     .screen { display: none; animation: fadeIn 0.5s ease-in-out; }
     .screen.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Buttons */
-    button {
-      padding: 12px 24px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer;
-      transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
-    }
+    /* Inputs & Buttons */
+    input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; outline: none; }
+    button { padding: 12px 24px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
     .btn-primary { background: var(--accent); color: #022c22; width: 100%; margin: 10px 0; }
     .btn-primary:hover { background: #34d399; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); }
-    .btn-action { background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--glass-border); }
-    .btn-action:hover { background: rgba(255,255,255,0.2); border-color: var(--accent); }
-    .btn-danger { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
-    .btn-danger:hover { background: rgba(239, 68, 68, 0.4); }
+    .btn-action { background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--glass-border); width: 100%; margin-bottom: 10px;}
+    .btn-action:hover { border-color: var(--accent); }
+    .btn-danger { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; width: 100%; margin-bottom: 10px;}
 
-    /* Inputs */
-    input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(0, 0, 0, 0.3); color: white; outline: none; }
-    input:focus { border-color: var(--accent); }
-
-    /* Hatchery Grid */
-    .organism-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-    .organism-card { background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
-    .organism-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(16,185,129,0.2); }
+    /* Grids */
+    .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .card { background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
+    .card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(16,185,129,0.2); }
     
-    /* Ethereal Orbs */
-    .orb { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 15px auto; box-shadow: 0 0 30px rgba(255, 255, 255, 0.1); animation: float 4s ease-in-out infinite; }
-    .orb-large { width: 200px; height: 200px; }
+    /* Ethereal Orbs (Dynamic Evolution Styles) */
+    .orb { border-radius: 50%; margin: 0 auto 15px auto; transition: all 1s ease; animation: float 4s ease-in-out infinite; }
+    .orb.stage-1 { width: 80px; height: 80px; box-shadow: 0 0 10px rgba(255,255,255,0.1); }
+    .orb.stage-2 { width: 110px; height: 110px; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+    .orb.stage-3 { width: 140px; height: 140px; box-shadow: 0 0 30px rgba(255,255,255,0.4); border: 2px solid rgba(255,255,255,0.3); }
+    .orb.stage-4 { width: 180px; height: 180px; box-shadow: 0 0 50px rgba(255,255,255,0.6); border: 4px solid rgba(255,255,255,0.5); }
+    .orb.stage-5 { width: 220px; height: 220px; box-shadow: 0 0 80px var(--accent); border: 6px solid white; animation: float 3s ease-in-out infinite, pulse 2s infinite; }
+    
     @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-    /* Sanctuary Layout */
-    .sanctuary-layout { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 30px; align-items: center; }
-    .stats-panel, .action-panel { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid var(--glass-border); }
-    
     /* Progress Bars */
     .bar-container { width: 100%; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 10px 0 20px 0; height: 12px; overflow: hidden; }
     .bar-fill { height: 100%; border-radius: 10px; transition: width 0.4s ease; }
-    .bg-hp { background: var(--hp-color); box-shadow: 0 0 10px var(--hp-color); }
-    .bg-xp { background: var(--xp-color); box-shadow: 0 0 10px var(--xp-color); }
+    .bg-hp { background: var(--hp-color); } .bg-xp { background: var(--xp-color); }
 
-    /* Colosseum Layout */
-    .battle-arena { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding: 40px; background: rgba(0,0,0,0.2); border-radius: 20px; border: 1px solid rgba(239, 68, 68, 0.3); }
+    /* Layouts */
+    .sanctuary-layout { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 30px; align-items: center; }
+    .panel { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid var(--glass-border); }
+    
+    /* Diet Buttons */
+    .diet-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px;}
+    .btn-diet { font-size: 0.8rem; padding: 10px; }
+    .bg-meat { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: white;}
+    .bg-flora { background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: white;}
+    .bg-mineral { background: rgba(168, 162, 158, 0.2); border: 1px solid #a8a29e; color: white;}
+
+    /* Battle Arena */
+    .battle-arena { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding: 40px; background: rgba(0,0,0,0.5); border-radius: 20px; transition: background 1s; }
     .fighter { text-align: center; width: 40%; }
-    .vs-badge { font-size: 2rem; font-weight: 800; color: #ef4444; text-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
-    .battle-log { margin-top: 20px; height: 100px; overflow-y: auto; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; font-family: monospace; color: #a7f3d0; }
-    .combat-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-
+    .battle-log { margin-top: 20px; height: 120px; overflow-y: auto; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; font-family: monospace; color: #a7f3d0; }
+    
+    /* Loading overlay */
+    #loader { display: none; position: absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index: 100; border-radius: 24px; color: white; justify-content: center; align-items: center; font-size: 1.5rem; }
   </style>
 </head>
 <body>
 
   <div class="glass-panel" id="app">
-    
+    <div id="loader">Syncing with EvoCore Network...</div>
+
     <div id="screen-auth" class="screen active">
       <div style="max-width: 400px; margin: 0 auto; padding-top: 10vh;">
         <h1>Evo<span>Core</span></h1>
@@ -111,109 +102,137 @@
       </div>
     </div>
 
+    <div id="screen-region" class="screen">
+      <h1>Select <span>Region</span></h1>
+      <p class="subtitle">Different biomes yield different evolutionary traits.</p>
+      <div class="grid-container">
+        <div class="card" onclick="game.selectRegion('Abyssal Trench')">
+          <h3>Abyssal Trench</h3><p style="font-size: 0.8rem; color: #38bdf8;">Deep Sea Organisms</p>
+        </div>
+        <div class="card" onclick="game.selectRegion('Verdant Canopy')">
+          <h3>Verdant Canopy</h3><p style="font-size: 0.8rem; color: #4ade80;">Flora & Toxic Organisms</p>
+        </div>
+        <div class="card" onclick="game.selectRegion('Volcanic Crag')">
+          <h3>Volcanic Crag</h3><p style="font-size: 0.8rem; color: #f87171;">Heat-Resistant Organisms</p>
+        </div>
+      </div>
+    </div>
+
     <div id="screen-hatchery" class="screen">
       <h1>The <span>Hatchery</span></h1>
-      <p class="subtitle">Select your Stage-1 Organism to begin the Genesis trial.</p>
-      <div class="organism-grid" id="hatchery-grid"></div>
+      <p class="subtitle" id="hatchery-desc">Select your Stage-1 Organism.</p>
+      <div class="grid-container" id="hatchery-grid"></div>
     </div>
 
     <div id="screen-sanctuary" class="screen">
       <h1>The <span>Sanctuary</span></h1>
-      <p class="subtitle" id="sanctuary-title">Ecosystem stable. Care for your organism.</p>
+      <p class="subtitle">Ecosystem stable. Mutate and Evolve.</p>
       
       <div class="sanctuary-layout">
-        <div class="stats-panel">
+        <div class="panel">
           <h3>Vital Stats</h3>
-          <p style="margin-top:15px;">Stage: <span id="stat-stage" style="color:var(--accent);">1 (Spore)</span></p>
-          <p>Rank: <span id="stat-rank">Cell</span></p>
+          <p style="margin-top:10px;">Form: <span id="stat-form" style="color:var(--accent); font-weight:bold;">Spore</span></p>
+          <p>Stage: <span id="stat-stage">1</span> / 5</p>
           
-          <div style="margin-top: 20px;">HP (<span id="text-hp">100</span>/100)</div>
+          <div style="margin-top: 15px;">HP (<span id="text-hp">100</span>/<span id="text-maxhp">100</span>)</div>
           <div class="bar-container"><div class="bar-fill bg-hp" id="bar-hp" style="width: 100%;"></div></div>
           
           <div>XP (<span id="text-xp">0</span>/100)</div>
           <div class="bar-container"><div class="bar-fill bg-xp" id="bar-xp" style="width: 0%;"></div></div>
           
-          <p>Attack Power: <span id="stat-atk" style="color:#f87171;">10</span></p>
+          <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+            <p>ATK: <span id="stat-atk" style="color:#f87171;">10</span></p>
+            <p>DEF: <span id="stat-def" style="color:#94a3b8;">5</span></p>
+          </div>
         </div>
 
         <div style="text-align: center;">
-          <div class="orb orb-large" id="sanctuary-orb"></div>
-          <h2 id="sanctuary-name" style="margin-top:20px;">Organism Name</h2>
+          <div class="orb stage-1" id="sanctuary-orb"></div>
+          <h2 id="sanctuary-name" style="margin-top:20px;">Name</h2>
           <p id="sanctuary-trait" style="color: var(--accent); font-size: 0.9rem;">Trait</p>
         </div>
 
-        <div class="action-panel">
-          <h3>Actions</h3>
-          <p style="font-size: 0.8rem; color: #9ca3af; margin-bottom: 15px;">Nutrient Reserves: <span id="food-count">5</span></p>
-          <button class="btn-action" style="width:100%; margin-bottom:10px;" onclick="game.feed()">Feed (+XP, +HP)</button>
-          <button class="btn-danger" style="width:100%; margin-bottom:10px;" onclick="game.goToColosseum()">Enter Colosseum</button>
-          <button class="btn-action" style="width:100%; margin-top: 40px;" onclick="game.logout()">System Logout</button>
+        <div class="panel">
+          <h3>Dietary Mutation</h3>
+          <p style="font-size: 0.8rem; color: #9ca3af; margin-bottom: 15px;">Reserves: <span id="food-count">0</span></p>
+          
+          <div class="diet-grid">
+            <button class="btn-diet bg-meat" onclick="game.feed('meat')">Meat<br>(+ATK)</button>
+            <button class="btn-diet bg-flora" onclick="game.feed('flora')">Flora<br>(+HP)</button>
+            <button class="btn-diet bg-mineral" onclick="game.feed('mineral')">Rock<br>(+DEF)</button>
+          </div>
+
+          <button class="btn-danger" onclick="game.goToColosseum()">Enter Colosseum</button>
+          <button class="btn-action" style="margin-top: 20px;" onclick="game.saveToCloud()">Save to Cloud</button>
+          <button class="btn-action" style="background: transparent; border: none; color: #9ca3af;" onclick="game.logout()">System Logout</button>
         </div>
       </div>
     </div>
 
     <div id="screen-colosseum" class="screen">
       <h1>The <span>Colosseum</span></h1>
-      <p class="subtitle">Survival of the fittest. Fight for evolution.</p>
+      <p class="subtitle" id="colosseum-biome">Biome: Neutral</p>
       
-      <div class="battle-arena">
+      <div class="battle-arena" id="arena-bg">
         <div class="fighter">
-          <h3 id="battle-player-name">Your Organism</h3>
-          <div class="bar-container"><div class="bar-fill bg-hp" id="battle-player-hp-bar" style="width: 100%;"></div></div>
-          <div class="orb" id="battle-player-orb" style="width: 80px; height: 80px;"></div>
+          <h3 id="battle-player-name">You</h3>
+          <div class="bar-container"><div class="bar-fill bg-hp" id="battle-player-hp" style="width: 100%;"></div></div>
+          <div class="orb stage-2" id="battle-player-orb"></div>
         </div>
-
-        <div class="vs-badge">VS</div>
-
+        <div style="font-size: 2rem; font-weight: 800; color: #ef4444;">VS</div>
         <div class="fighter">
-          <h3 id="battle-enemy-name">Feral Scavenger</h3>
-          <div class="bar-container"><div class="bar-fill bg-hp" id="battle-enemy-hp-bar" style="width: 100%;"></div></div>
-          <div class="orb" id="battle-enemy-orb" style="background: linear-gradient(135deg, #475569, #1e293b); width: 80px; height: 80px;"></div>
+          <h3 id="battle-enemy-name">Feral Beast</h3>
+          <div class="bar-container"><div class="bar-fill bg-hp" id="battle-enemy-hp" style="width: 100%;"></div></div>
+          <div class="orb stage-2" id="battle-enemy-orb" style="background: #334155;"></div>
         </div>
       </div>
 
-      <div class="combat-controls">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
         <button class="btn-primary" onclick="game.attack()">Basic Strike</button>
-        <button class="btn-action" onclick="game.defend()">Defend (Block 50%)</button>
+        <button class="btn-action" onclick="game.defend()">Harden (Block)</button>
         <button class="btn-danger" style="grid-column: span 2;" onclick="game.flee()">Flee to Sanctuary</button>
       </div>
-
-      <div class="battle-log" id="battle-log">
-        > Entering the Colosseum...<br>
-        > A wild organism approaches!
-      </div>
+      <div class="battle-log" id="battle-log"></div>
     </div>
-
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
+    // Your Exact Config
     const firebaseConfig = {
       apiKey: "AIzaSyBahVyXnanI-2aXNj9ajTxqP-MJZXTPG38", authDomain: "nexusbio.firebaseapp.com", projectId: "nexusbio",
       storageBucket: "nexusbio.firebasestorage.app", messagingSenderId: "742997204418", appId: "1:742997204418:web:a9d323bc87f164018c8a5b"
     };
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    // --- GAME DATA & STATE ---
-    const starters = [
-      { id: "lumina", name: "Lumina Spore", trait: "Photosynthesis", color1: "#fef08a", color2: "#ca8a04", atk: 12 },
-      { id: "abyssal", name: "Abyssal Larva", trait: "High-Pressure", color1: "#38bdf8", color2: "#0369a1", atk: 15 },
-      { id: "igneous", name: "Igneous Cell", trait: "Heat Resistance", color1: "#f87171", color2: "#b91c1c", atk: 18 },
-      { id: "verdant", name: "Verdant Seedling", trait: "Toxin Filter", color1: "#4ade80", color2: "#15803d", atk: 10 }
-    ];
+    // Game Database
+    const regions = {
+      'Abyssal Trench': { bg: 'linear-gradient(135deg, #0f172a, #0c4a6e)', organisms: [
+        { id: "abyssal", name: "Abyssal Larva", trait: "High-Pressure", color1: "#38bdf8", color2: "#0369a1", atk: 15, def: 8 },
+        { id: "leviathan", name: "Deep Spore", trait: "Bioluminescence", color1: "#818cf8", color2: "#3730a3", atk: 12, def: 10 }
+      ]},
+      'Verdant Canopy': { bg: 'linear-gradient(135deg, #064e3b, #14532d)', organisms: [
+        { id: "verdant", name: "Verdant Seedling", trait: "Toxin Filter", color1: "#4ade80", color2: "#15803d", atk: 10, def: 12 },
+        { id: "venom", name: "Venom Slime", trait: "Acidic Touch", color1: "#a3e635", color2: "#4d7c0f", atk: 18, def: 5 }
+      ]},
+      'Volcanic Crag': { bg: 'linear-gradient(135deg, #450a0a, #7f1d1d)', organisms: [
+        { id: "igneous", name: "Igneous Cell", trait: "Heat Resistance", color1: "#f87171", color2: "#b91c1c", atk: 20, def: 5 },
+        { id: "geo", name: "Geo-Mite", trait: "Hardened Carapace", color1: "#fdba74", color2: "#c2410c", atk: 8, def: 20 }
+      ]}
+    };
 
-    // Core Engine Logic attached to global window so HTML buttons can click it
+    const forms = ["Spore", "Juvenile", "Apex", "Mutated", "Ascendant"];
+
     window.game = {
-      state: {
-        user: null,
-        activeOrganism: null,
-        food: 10,
-        battle: { enemyHp: 50, enemyMaxHp: 50, isDefending: false }
-      },
+      state: { user: null, region: null, activeOrganism: null, food: 15, battle: {} },
 
+      showLoader(show) { document.getElementById('loader').style.display = show ? 'flex' : 'none'; },
+      
       switchScreen(screenId) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(`screen-${screenId}`).classList.add('active');
@@ -221,165 +240,209 @@
 
       log(msg) {
         const logBox = document.getElementById('battle-log');
-        logBox.innerHTML += `<br>> ${msg}`;
+        logBox.innerHTML += `> ${msg}<br>`;
         logBox.scrollTop = logBox.scrollHeight;
       },
 
-      initHatchery() {
+      selectRegion(regionName) {
+        this.state.region = regionName;
+        document.getElementById('hatchery-desc').innerText = `Biome: ${regionName}. Select your survivor.`;
         const grid = document.getElementById('hatchery-grid');
         grid.innerHTML = '';
-        starters.forEach(org => {
+        
+        regions[regionName].organisms.forEach(org => {
           const card = document.createElement('div');
-          card.className = 'organism-card';
-          card.innerHTML = `
-            <div class="orb" style="background: linear-gradient(135deg, ${org.color1}, ${org.color2});"></div>
-            <h3>${org.name}</h3>
-            <p style="color:var(--accent); font-size:0.8rem; margin-top:5px;">${org.trait}</p>
-          `;
-          card.onclick = () => this.selectStarter(org);
+          card.className = 'card';
+          card.innerHTML = `<div class="orb stage-1" style="background: linear-gradient(135deg, ${org.color1}, ${org.color2});"></div>
+            <h3>${org.name}</h3><p style="color:var(--accent); font-size:0.8rem;">${org.trait}</p>`;
+          card.onclick = () => {
+            this.state.activeOrganism = { ...org, stage: 1, xp: 0, hp: 100, maxHp: 100 };
+            this.saveToCloud().then(() => { this.updateSanctuary(); this.switchScreen('sanctuary'); });
+          };
           grid.appendChild(card);
         });
+        this.switchScreen('hatchery');
       },
 
-      selectStarter(baseOrg) {
-        // Create the player's unique instance of the organism
-        this.state.activeOrganism = {
-          ...baseOrg,
-          level: 1, xp: 0, hp: 100, maxHp: 100
-        };
-        this.updateSanctuaryUI();
-        this.switchScreen('sanctuary');
-      },
-
-      updateSanctuaryUI() {
+      updateSanctuary() {
         const org = this.state.activeOrganism;
+        const orb = document.getElementById('sanctuary-orb');
+        orb.className = `orb stage-${org.stage}`;
+        orb.style.background = `linear-gradient(135deg, ${org.color1}, ${org.color2})`;
+        
+        document.getElementById('stat-form').innerText = forms[org.stage - 1];
+        document.getElementById('stat-stage').innerText = org.stage;
         document.getElementById('sanctuary-name').innerText = org.name;
         document.getElementById('sanctuary-trait').innerText = `Passive: ${org.trait}`;
-        document.getElementById('sanctuary-orb').style.background = `linear-gradient(135deg, ${org.color1}, ${org.color2})`;
         
         document.getElementById('text-hp').innerText = org.hp;
+        document.getElementById('text-maxhp').innerText = org.maxHp;
         document.getElementById('bar-hp').style.width = `${(org.hp / org.maxHp) * 100}%`;
+        
         document.getElementById('text-xp').innerText = org.xp;
         document.getElementById('bar-xp').style.width = `${org.xp}%`;
+        
         document.getElementById('stat-atk').innerText = org.atk;
+        document.getElementById('stat-def').innerText = org.def;
         document.getElementById('food-count').innerText = this.state.food;
       },
 
-      feed() {
-        if (this.state.food <= 0) return alert("Out of nutrients! Win battles to get more.");
+      feed(dietType) {
+        if (this.state.food <= 0) return alert("Out of reserves! Fight in the Colosseum.");
+        if (this.state.activeOrganism.stage >= 5 && this.state.activeOrganism.xp >= 100) return alert("Max Evolution Reached!");
+
         this.state.food--;
-        this.state.activeOrganism.xp += 20;
-        if(this.state.activeOrganism.hp < this.state.activeOrganism.maxHp) {
-            this.state.activeOrganism.hp = Math.min(this.state.activeOrganism.maxHp, this.state.activeOrganism.hp + 10);
-        }
+        this.state.activeOrganism.xp += 25;
         
-        if (this.state.activeOrganism.xp >= 100) {
-          this.state.activeOrganism.level++;
+        // Diet Stat Branching
+        if (dietType === 'meat') this.state.activeOrganism.atk += 2;
+        if (dietType === 'flora') this.state.activeOrganism.maxHp += 10;
+        if (dietType === 'mineral') this.state.activeOrganism.def += 2;
+        
+        // Heal
+        this.state.activeOrganism.hp = Math.min(this.state.activeOrganism.maxHp, this.state.activeOrganism.hp + 20);
+
+        // Evolution Check
+        if (this.state.activeOrganism.xp >= 100 && this.state.activeOrganism.stage < 5) {
+          this.state.activeOrganism.stage++;
           this.state.activeOrganism.xp = 0;
           this.state.activeOrganism.atk += 5;
-          this.state.activeOrganism.maxHp += 20;
+          this.state.activeOrganism.def += 5;
+          this.state.activeOrganism.maxHp += 50;
           this.state.activeOrganism.hp = this.state.activeOrganism.maxHp;
-          alert("EVOLUTION! Your organism has grown stronger!");
+          alert(`EVOLUTION! Your organism has reached the ${forms[this.state.activeOrganism.stage - 1]} form!`);
         }
-        this.updateSanctuaryUI();
+        this.updateSanctuary();
+        this.saveToCloud(); // Auto-save after feeding
       },
 
       goToColosseum() {
-        if(this.state.activeOrganism.hp <= 0) return alert("Your organism is too weak to fight. Feed it to heal.");
+        if(this.state.activeOrganism.hp <= 0) return alert("Organism is unconscious. Feed Flora to heal.");
         
         const org = this.state.activeOrganism;
-        this.state.battle = { enemyHp: 60, enemyMaxHp: 60, isDefending: false };
+        const enemyMax = 50 + (org.stage * 30);
+        this.state.battle = { enemyHp: enemyMax, enemyMax: enemyMax, isDefending: false, turn: 1 };
         
+        // Setup Arena Biome based on region
+        document.getElementById('colosseum-biome').innerText = `Biome: ${this.state.region}`;
+        document.getElementById('arena-bg').style.background = regions[this.state.region].bg;
+        
+        // Setup Player
         document.getElementById('battle-player-name').innerText = org.name;
+        document.getElementById('battle-player-orb').className = `orb stage-${org.stage}`;
         document.getElementById('battle-player-orb').style.background = `linear-gradient(135deg, ${org.color1}, ${org.color2})`;
-        document.getElementById('battle-player-hp-bar').style.width = `${(org.hp / org.maxHp) * 100}%`;
+        document.getElementById('battle-player-hp').style.width = `${(org.hp / org.maxHp) * 100}%`;
         
-        document.getElementById('battle-enemy-hp-bar').style.width = `100%`;
-        document.getElementById('battle-log').innerHTML = "> Entering the Colosseum...<br>> A wild Feral Scavenger appears!";
+        // Setup Enemy (Scales with player stage)
+        document.getElementById('battle-enemy-name').innerText = `Stage ${org.stage} Predator`;
+        document.getElementById('battle-enemy-hp').style.width = `100%`;
+        document.getElementById('battle-log').innerHTML = "> Match Started!<br>";
         
         this.switchScreen('colosseum');
       },
 
       attack() {
         const org = this.state.activeOrganism;
-        const dmg = org.atk + Math.floor(Math.random() * 5); // Add slight RNG
+        const dmg = Math.max(1, org.atk + Math.floor(Math.random() * 5));
         this.state.battle.enemyHp -= dmg;
-        this.log(`${org.name} strikes for ${dmg} damage!`);
+        this.log(`You struck for ${dmg} damage!`);
         
         if (this.state.battle.enemyHp <= 0) {
-          document.getElementById('battle-enemy-hp-bar').style.width = `0%`;
-          this.log(`Enemy defeated! Gained 3 Nutrient Reserves.`);
-          this.state.food += 3;
-          setTimeout(() => {
-            this.updateSanctuaryUI();
-            this.switchScreen('sanctuary');
-          }, 2000);
+          document.getElementById('battle-enemy-hp').style.width = `0%`;
+          const reward = 2 + org.stage;
+          this.log(`<b>Victory! Gained ${reward} Reserves.</b>`);
+          this.state.food += reward;
+          setTimeout(() => { this.updateSanctuary(); this.saveToCloud(); this.switchScreen('sanctuary'); }, 2000);
           return;
         }
         
-        document.getElementById('battle-enemy-hp-bar').style.width = `${(this.state.battle.enemyHp / this.state.battle.enemyMaxHp) * 100}%`;
+        document.getElementById('battle-enemy-hp').style.width = `${(this.state.battle.enemyHp / this.state.battle.enemyMax) * 100}%`;
         this.enemyTurn();
       },
 
       defend() {
         this.state.battle.isDefending = true;
-        this.log(`${this.state.activeOrganism.name} hardens its cells. Defense raised!`);
+        this.log(`You hardened your exterior. Defense raised!`);
         this.enemyTurn();
       },
 
       enemyTurn() {
         setTimeout(() => {
-          let enemyDmg = 12 + Math.floor(Math.random() * 5);
-          if (this.state.battle.isDefending) {
-            enemyDmg = Math.floor(enemyDmg / 2);
-            this.state.battle.isDefending = false;
-          }
+          let enemyAtk = 10 + (this.state.activeOrganism.stage * 8);
+          let enemyDmg = Math.max(1, enemyAtk - this.state.activeOrganism.def);
+          
+          if (this.state.battle.isDefending) { enemyDmg = Math.floor(enemyDmg / 3); this.state.battle.isDefending = false; }
           
           this.state.activeOrganism.hp -= enemyDmg;
-          this.log(`Feral Scavenger retaliates for ${enemyDmg} damage!`);
+          this.log(`Predator retaliates for ${enemyDmg} damage!`);
           
           if (this.state.activeOrganism.hp <= 0) {
             this.state.activeOrganism.hp = 0;
-            document.getElementById('battle-player-hp-bar').style.width = `0%`;
-            this.log(`Your organism fainted... Returning to Sanctuary.`);
-            setTimeout(() => {
-              this.updateSanctuaryUI();
-              this.switchScreen('sanctuary');
-            }, 2000);
+            document.getElementById('battle-player-hp').style.width = `0%`;
+            this.log(`<span style="color:red">You were defeated...</span>`);
+            setTimeout(() => { this.updateSanctuary(); this.saveToCloud(); this.switchScreen('sanctuary'); }, 2000);
           } else {
-            document.getElementById('battle-player-hp-bar').style.width = `${(this.state.activeOrganism.hp / this.state.activeOrganism.maxHp) * 100}%`;
+            document.getElementById('battle-player-hp').style.width = `${(this.state.activeOrganism.hp / this.state.activeOrganism.maxHp) * 100}%`;
           }
         }, 800);
       },
 
-      flee() {
-        this.log("Fleeing the battle...");
-        setTimeout(() => { this.switchScreen('sanctuary'); }, 1000);
+      flee() { this.log("Fleeing..."); setTimeout(() => this.switchScreen('sanctuary'), 1000); },
+
+      // --- FIREBASE CLOUD SAVING ---
+      async saveToCloud() {
+        if(!this.state.user) return;
+        try {
+          this.showLoader(true);
+          await setDoc(doc(db, "players", this.state.user.uid), {
+            region: this.state.region,
+            food: this.state.food,
+            organism: this.state.activeOrganism,
+            lastSaved: new Date().toISOString()
+          });
+          console.log("Game Saved to Firestore.");
+        } catch(e) { console.error("Save Error", e); }
+        finally { this.showLoader(false); }
+      },
+
+      async loadFromCloud() {
+        try {
+          this.showLoader(true);
+          const docSnap = await getDoc(doc(db, "players", this.state.user.uid));
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            this.state.region = data.region;
+            this.state.food = data.food;
+            this.state.activeOrganism = data.organism;
+            this.updateSanctuary();
+            this.switchScreen('sanctuary');
+          } else {
+            this.switchScreen('region'); // New player
+          }
+        } catch(e) { console.error("Load Error", e); }
+        finally { this.showLoader(false); }
       },
 
       logout() { signOut(auth); }
     };
 
-    // --- AUTHENTICATION LISTENERS ---
+    // Auth Listeners
     document.getElementById('btn-login').addEventListener('click', async () => {
       const email = document.getElementById('email').value;
       const pass = document.getElementById('password').value;
-      if(!email || !pass) return alert("Enter email and password. Use any dummy email to test UI without real DB.");
-      try { await signInWithEmailAndPassword(auth, email, pass); } 
-      catch (e) { alert("Test Mode: Simulating login since DB not fully set."); game.switchScreen('hatchery'); game.initHatchery(); }
+      if(!email || !pass) return alert("Enter credentials.");
+      try { await signInWithEmailAndPassword(auth, email, pass); } catch (e) { alert(e.message); }
     });
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        game.initHatchery();
-        game.state.activeOrganism ? game.switchScreen('sanctuary') : game.switchScreen('hatchery');
+        window.game.state.user = user;
+        window.game.loadFromCloud(); // Pull data from Firestore
       } else {
-        game.switchScreen('auth');
+        window.game.state.user = null;
+        window.game.switchScreen('auth');
       }
     });
-
-    // Fallback initialize for testing locally without actual Firebase accounts setup yet
-    game.initHatchery();
   </script>
 </body>
 </html>
